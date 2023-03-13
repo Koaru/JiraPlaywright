@@ -22,13 +22,11 @@ test("Happy Path login", async ({page}) => {
 test("Invalid username", async ({page}) => {
     const login = new LoginPage(page);
     await login.login(INVALIDUSERNAME,PASSWORD);
-    console.log(login.errorMessageIsPresent);
-    expect(login.errorMessageIsPresent).toBeTruthy();
+    expect(await login.errorMessageIsPresent()).toBeTruthy();
 })
 
 test("Invalid password", async ({page}) => {
     const login = new LoginPage(page);
     await login.login(USERNAME,INVALIDPASSWORD);
-    console.log(login.errorMessageIsPresent);
-    expect(login.errorMessageIsPresent).toBeTruthy();
+    expect(await login.errorMessageIsPresent()).toBeTruthy();
 })

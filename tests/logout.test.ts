@@ -10,7 +10,7 @@ test("Logout", async ({page}) => {
     const login = new LoginPage(page);
     const dashboard = new DashboardPage(page);
     await login.login(USERNAME,PASSWORD);
-    dashboard.clickOnProfile;
-    dashboard.clickOnLogoutBtn;
+    await dashboard.clickOnProfile();
+    await dashboard.clickOnLogoutBtn();
     expect(dashboard.logoutMessageIsPresent).toBeTruthy;
 })
