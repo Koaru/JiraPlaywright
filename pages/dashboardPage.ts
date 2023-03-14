@@ -19,4 +19,32 @@ export default class DashboardPage{
     async clickOnLogoutBtn(){
         await this.page.click("#log_out");
     }
+
+    async clickOnCreateBtn(){
+        await this.page.click("#create_link");
+    }
+
+    async fillProjectField(project: string){
+        await this.page.fill("#project-field", project);
+    }
+
+    async fillSummary(summary: string){
+        await this.page.locator("#summary").type(summary);
+    }
+
+    async clickOnCreateIssueBtn(){
+        await this.page.click("#create-issue-submit");
+    }
+
+    async clickOnCreateIssueHeading(){
+        await this.page.getByRole('heading', { name: 'Create Issue' }).click();
+    }
+
+    async clickOnCreatedIssueLink(){
+        await this.page.click('.issue-created-key.issue-link');
+    }
+
+    async getCreatedIssueText(){
+        return await this.page.textContent('.issue-created-key.issue-link');
+    }
 }
