@@ -4,6 +4,8 @@ export default class LoginPage{
 
     constructor(public page: Page){}
 
+    
+
     async enterUserName(username: string){
        await this.page.locator("#login-form-username").type(username);
     }
@@ -17,7 +19,7 @@ export default class LoginPage{
     }
 
     async navigateToLoginPage(){
-        await this.page.goto("https://jira-auto.codecool.metastage.net/secure/Dashboard.jspa")
+        await this.page.goto("https://jira-auto.codecool.metastage.net/secure/Dashboard.jspa", {waitUntil: "networkidle"});
     }
 
     async errorMessageIsPresent(){

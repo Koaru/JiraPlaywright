@@ -13,7 +13,7 @@ export default class IssuePage{
     }
 
     async clickOnDeleteBtn(){
-        await this.page.click("aui-item-link[id='delete-issue'] a[role='menuitem']");
+        await this.page.click("#delete-issue");
     }
 
     async clickOnDeleteIssueBtn(){
@@ -23,7 +23,7 @@ export default class IssuePage{
 
     async deleteIssue(){
         await this.clickOnMoreBtn();
-        await this.clickOnMoreBtn();
+        await this.clickOnDeleteBtn();
         await this.clickOnDeleteIssueBtn();
     }
 

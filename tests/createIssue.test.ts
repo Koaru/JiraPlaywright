@@ -9,7 +9,6 @@ const PROJECT = "Main Testing Project (MTP)";
 const SUMMARY = "Test summary";
 
 
-
 test.beforeEach(async ( {page} ) => {
     const login = new LoginPage(page);
     await login.login(USERNAME,PASSWORD);
@@ -17,23 +16,42 @@ test.beforeEach(async ( {page} ) => {
 
 
 test.describe("Create issue test suit", async () => {
+
+
     test("Create issue", async ({ page }) => {
         const dashboard = new DashboardPage(page);
         const issue = new IssuePage(page);
-        await dashboard.clickOnCreateBtn();
-        await page.waitForSelector("#create-issue-submit");
-        await page.waitForLoadState("networkidle");
-        await page.pause();
-        await dashboard.fillProjectField(PROJECT);
-        await dashboard.clickOnCreateIssueHeading();
-        await dashboard.fillSummary(SUMMARY);
-        await dashboard.clickOnCreateIssueBtn();
+        await dashboard.createIssue(SUMMARY,PROJECT);
         const issueKey = await dashboard.getCreatedIssueText();
         await dashboard.clickOnCreatedIssueLink();
         const expectedResult = await issue.getIssueKey() + " - " + SUMMARY;
         expect(issueKey).toBe(expectedResult);
         await issue.deleteIssue();
     })
+
+    
+    test("Cancel issue create", async ({page}) =>{
+        const dashboard = new DashboardPage(page);
+        await dashboard.clickOnCreateBtn();
+        await dashboard.fillProjectField(PROJECT);
+        await dashboard.clickOnCreateIssueHeading();
+        await dashboard.clickOnCreateIssueCancelBtn();
+    })
+
+
+    test("Create issue with empty summary", async ({page}) => {
+        const dashboard = new DashboardPage(page);
+        await dashboard.clickOnCreateBtn();
+        await dashboard.clickOnCreateIssueBtn();
+        await page.waitForLoadState("networkidle");
+        expect(await dashboard.isSummaryFieldEmpty()).toBeTruthy();
+    })
+
+
+    /* test("Create issue with project and type", async ({page}) => {
+        const dashboard = new DashboardPage(page);
+        await dashboard.createIssue();
+    }) */
 })
 
 

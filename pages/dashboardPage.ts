@@ -47,4 +47,34 @@ export default class DashboardPage{
     async getCreatedIssueText(){
         return await this.page.textContent('.issue-created-key.issue-link');
     }
+
+    async isModalWindowDisplayed(){
+        return await this.page.locator("#create-issue-dialog").isVisible();
+    }
+
+    async acceptAlert(){
+        this.page.on("dialog", async (dialog) =>{
+            dialog.accept();
+        })
+    }
+
+    async clickOnCreateIssueCancelBtn(){
+        await this.page.getByRole('button', { name: 'Cancel' }).click();
+    }
+
+    async isSummaryFieldEmpty(){
+        return await this.page.getByText('You must specify a summary of the issue.').isVisible();
+    }
+
+    async createIssue(summary: string, project: string){
+        await this.clickOnCreateBtn();
+        await this.fillProjectField(project);
+        await this.clickOnCreateIssueHeading();
+        await this.fillSummary(summary);
+        await this.clickOnCreateIssueBtn();
+        await this.page.waitForLoadState("networkidle");
+        await this.page.mouse.click(200,200);
+        await this.fillSummary(summary);
+        await this.clickOnCreateIssueBtn();
+    }
 }
