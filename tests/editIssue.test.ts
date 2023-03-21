@@ -30,6 +30,18 @@ test.describe("Edit issue test suit", async () => {
         const actualResult = await issue.getSummary();
         expect(actualResult).toBe(EDITED_SUMMARY);
         await issue.deleteIssue();
-    })
+    });
+
+    test("Edit issue with empty summary", async ({ page }) => {
+        const dashboard = new DashboardPage(page);
+        const issue = new IssuePage(page);
+        await dashboard.createIssue(SUMMARY, PROJECT, TYPE);
+        await dashboard.clickOnCreatedIssueLink();
+        await issue.clickOnEditBtn();
+        await issue.fillSummary("");
+        await issue.clickOnUpdateBtn();
+        await page.waitForTimeout(500);
+        expect(await dashboard.isSummaryFieldEmpty()).toBeTruthy();
+    });
 
 });

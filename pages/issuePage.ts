@@ -38,6 +38,10 @@ export default class IssuePage {
         return await this.page.textContent("#summary-val");
     }
 
+    async isSummaryFieldEmpty() {
+        return await this.page.getByText('You must specify a summary of the issue.').isVisible();
+    }
+
     async deleteIssue() {
         await this.clickOnMoreBtn();
         await this.clickOnDeleteBtn();
