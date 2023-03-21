@@ -1,79 +1,83 @@
 import { Page } from "@playwright/test";
 
-export default class DashboardPage{
+export default class DashboardPage {
 
-    constructor(public page: Page){}
+    constructor(public page: Page) { }
 
-    async clickOnProfile(){
+    async clickOnProfile() {
         await this.page.click("#header-details-user-fullname");
     }
 
-    async clickOnViewProfile(){
+    async clickOnViewProfile() {
         await this.page.click("#view_profile");
     }
 
-    async logoutMessageIsPresent(){
+    async logoutMessageIsPresent() {
         return this.page.locator("#//div[@class='aui-message aui-message-info']").isVisible;
     }
 
-    async clickOnLogoutBtn(){
+    async clickOnLogoutBtn() {
         await this.page.click("#log_out");
     }
 
-    async clickOnCreateBtn(){
+    async clickOnCreateBtn() {
         await this.page.click("#create_link");
     }
 
-    async fillProjectField(project: string){
+    async fillProjectField(project: string) {
         await this.page.fill("#project-field", project);
     }
 
-    async fillSummary(summary: string){
+    async fillSummary(summary: string) {
         await this.page.locator("#summary").type(summary);
     }
 
-    async clickOnCreateIssueBtn(){
+    async clickOnCreateIssueBtn() {
         await this.page.click("#create-issue-submit");
     }
 
-    async clickOnCreateIssueHeading(){
+    async clickOnCreateIssueHeading() {
         await this.page.getByRole('heading', { name: 'Create Issue' }).click();
     }
 
-    async clickOnCreatedIssueLink(){
+    async clickOnCreatedIssueLink() {
         await this.page.click('.issue-created-key.issue-link');
     }
 
-    async getCreatedIssueText(){
+    async getCreatedIssueText() {
         return await this.page.textContent('.issue-created-key.issue-link');
     }
 
-    async isModalWindowDisplayed(){
+    async isModalWindowDisplayed() {
         return await this.page.locator("#create-issue-dialog").isVisible();
     }
 
-    async acceptAlert(){
-        this.page.on("dialog", async (dialog) =>{
+    async acceptAlert() {
+        this.page.on("dialog", async (dialog) => {
             dialog.accept();
         })
     }
 
-    async clickOnCreateIssueCancelBtn(){
+    async clickOnCreateIssueCancelBtn() {
         await this.page.getByRole('button', { name: 'Cancel' }).click();
     }
 
-    async isSummaryFieldEmpty(){
+    async isSummaryFieldEmpty() {
         return await this.page.getByText('You must specify a summary of the issue.').isVisible();
     }
 
-    async createIssue(summary: string, project: string){
+    async fillIssueTypeField(type: string) {
+        await this.page.fill("#issuetype-field", type);
+    }
+
+    async createIssue(summary: string, project: string, type: string) {
         await this.clickOnCreateBtn();
         await this.fillProjectField(project);
         await this.clickOnCreateIssueHeading();
-        await this.fillSummary(summary);
+        await this.fillIssueTypeField(type);
         await this.clickOnCreateIssueBtn();
         await this.page.waitForLoadState("networkidle");
-        await this.page.mouse.click(200,200);
+        await this.page.mouse.click(200, 200);
         await this.fillSummary(summary);
         await this.clickOnCreateIssueBtn();
     }

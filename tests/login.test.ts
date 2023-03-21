@@ -1,4 +1,4 @@
-import {test, expect} from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import LoginPage from "../pages/loginPage";
 import DashboardPage from "../pages/dashboardPage";
 
@@ -8,25 +8,25 @@ const PASSWORD = "CCAutoTest19.";
 const INVALIDPASSWORD = "invalidpassword";
 
 
-test("Happy Path login", async ({page}) => {
+test("Happy Path login", async ({ page }) => {
     const login = new LoginPage(page);
     const dashboard = new DashboardPage(page);
-    await login.login(USERNAME,PASSWORD);
+    await login.login(USERNAME, PASSWORD);
     await dashboard.clickOnProfile();
     await dashboard.clickOnViewProfile();
     let userName = await page.textContent("#up-d-username");
-    expect(userName).toContain(USERNAME); 
+    expect(userName).toContain(USERNAME);
 })
 
 
-test("Invalid username", async ({page}) => {
+test("Invalid username", async ({ page }) => {
     const login = new LoginPage(page);
-    await login.login(INVALIDUSERNAME,PASSWORD);
+    await login.login(INVALIDUSERNAME, PASSWORD);
     expect(await login.errorMessageIsPresent()).toBeTruthy();
 })
 
-test("Invalid password", async ({page}) => {
+test("Invalid password", async ({ page }) => {
     const login = new LoginPage(page);
-    await login.login(USERNAME,INVALIDPASSWORD);
+    await login.login(USERNAME, INVALIDPASSWORD);
     expect(await login.errorMessageIsPresent()).toBeTruthy();
 })
