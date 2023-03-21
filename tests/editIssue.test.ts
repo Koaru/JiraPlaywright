@@ -26,9 +26,10 @@ test.describe("Edit issue test suit", async () => {
         await issue.clickOnEditBtn();
         await issue.fillSummary(EDITED_SUMMARY);
         await issue.clickOnUpdateBtn();
-        await page.waitForTimeout(500);
-        const actualResult = await issue.getSummary();
-        expect(actualResult).toBe(EDITED_SUMMARY);
+        await expect(async ()=> {
+            const actualResult = await issue.getSummary();
+            expect(actualResult).toBe(EDITED_SUMMARY);
+        }).toPass();
         await issue.deleteIssue();
     });
 
@@ -40,8 +41,10 @@ test.describe("Edit issue test suit", async () => {
         await issue.clickOnEditBtn();
         await issue.fillSummary("");
         await issue.clickOnUpdateBtn();
-        await page.waitForTimeout(500);
-        expect(await dashboard.isSummaryFieldEmpty()).toBeTruthy();
+        await expect(async ()=> {
+            expect(await dashboard.isSummaryFieldEmpty()).toBeTruthy();
+        }).toPass();
+        
     });
 
 });

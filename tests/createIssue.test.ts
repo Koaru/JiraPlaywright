@@ -44,8 +44,9 @@ test.describe("Create issue test suit", async () => {
         const dashboard = new DashboardPage(page);
         await dashboard.clickOnCreateBtn();
         await dashboard.clickOnCreateIssueBtn();
-        await page.waitForLoadState("networkidle");
-        expect(await dashboard.isSummaryFieldEmpty()).toBeTruthy();
+        await expect(async ()=> {
+            expect(await dashboard.isSummaryFieldEmpty()).toBeTruthy();
+        }).toPass();
     });
 })
 
