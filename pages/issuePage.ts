@@ -42,6 +42,10 @@ export default class IssuePage {
         return await this.page.getByText('You must specify a summary of the issue.').isVisible();
     }
 
+    async clickOnCancelBtn() {
+        await this.page.getByRole('button', { name: 'Cancel' }).click();
+    }
+
     async deleteIssue() {
         await this.clickOnMoreBtn();
         await this.clickOnDeleteBtn();

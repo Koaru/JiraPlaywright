@@ -1,4 +1,4 @@
-import { test, Page, expect } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import LoginPage from "../pages/loginPage";
 import DashboardPage from "../pages/dashboardPage";
 import IssuePage from "../pages/issuePage";
@@ -26,7 +26,7 @@ test.describe("Edit issue test suit", async () => {
         await issue.clickOnEditBtn();
         await issue.fillSummary(EDITED_SUMMARY);
         await issue.clickOnUpdateBtn();
-        await expect(async ()=> {
+        await expect(async () => {
             const actualResult = await issue.getSummary();
             expect(actualResult).toBe(EDITED_SUMMARY);
         }).toPass();
@@ -41,10 +41,9 @@ test.describe("Edit issue test suit", async () => {
         await issue.clickOnEditBtn();
         await issue.fillSummary("");
         await issue.clickOnUpdateBtn();
-        await expect(async ()=> {
+        await expect(async () => {
             expect(await dashboard.isSummaryFieldEmpty()).toBeTruthy();
         }).toPass();
-        
-    });
 
+    });
 });

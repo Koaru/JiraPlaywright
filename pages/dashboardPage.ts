@@ -70,6 +70,10 @@ export default class DashboardPage {
         await this.page.fill("#issuetype-field", type);
     }
 
+    async openIssue(issue : string) {
+        await this.page.goto(issue, { waitUntil: "networkidle" });
+    }
+
     async createIssue(summary: string, project: string, type: string) {
         await this.clickOnCreateBtn();
         await this.fillProjectField(project);

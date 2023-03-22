@@ -1,4 +1,4 @@
-import { test, Page, expect } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import LoginPage from "../pages/loginPage";
 import DashboardPage from "../pages/dashboardPage";
 import IssuePage from "../pages/issuePage";
@@ -44,7 +44,7 @@ test.describe("Create issue test suit", async () => {
         const dashboard = new DashboardPage(page);
         await dashboard.clickOnCreateBtn();
         await dashboard.clickOnCreateIssueBtn();
-        await expect(async ()=> {
+        await expect(async () => {
             expect(await dashboard.isSummaryFieldEmpty()).toBeTruthy();
         }).toPass();
     });
