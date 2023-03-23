@@ -2,9 +2,11 @@ import { test, expect } from "@playwright/test";
 import LoginPage from "../pages/loginPage";
 import DashboardPage from "../pages/dashboardPage";
 import IssuePage from "../pages/issuePage";
+import dotenv from 'dotenv'
+dotenv.config()
 
-const USERNAME = "automation40";
-const PASSWORD = "CCAutoTest19.";
+const USERNAME: any = process.env.LOGINNAME;
+const PASSWORD: any = process.env.PASSWORD;
 const PROJECT = "Main Testing Project (MTP)";
 const SUMMARY = "Test summary";
 const TYPE = "Story";

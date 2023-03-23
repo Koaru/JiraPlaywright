@@ -1,9 +1,11 @@
 import { test, expect } from "@playwright/test";
 import LoginPage from "../pages/loginPage";
 import DashboardPage from "../pages/dashboardPage";
+import dotenv from 'dotenv'
+dotenv.config()
 
-const USERNAME = "automation40";
-const PASSWORD = "CCAutoTest19.";
+const USERNAME: any = process.env.LOGINNAME;
+const PASSWORD: any = process.env.PASSWORD;
 
 
 test("Logout", async ({ page }) => {

@@ -70,7 +70,7 @@ export default class DashboardPage {
         await this.page.fill("#issuetype-field", type);
     }
 
-    async openIssue(issue : string) {
+    async openIssue(issue: string) {
         await this.page.goto(issue, { waitUntil: "networkidle" });
     }
 

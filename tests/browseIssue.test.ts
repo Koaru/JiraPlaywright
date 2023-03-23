@@ -2,19 +2,22 @@ import { test, expect } from "@playwright/test";
 import LoginPage from "../pages/loginPage";
 import DashboardPage from "../pages/dashboardPage";
 import IssuePage from "../pages/issuePage";
+import dotenv from 'dotenv'
+dotenv.config()
 
-const USERNAME = "automation40";
-const PASSWORD = "CCAutoTest19.";
+const USERNAME: any = process.env.LOGINNAME;
+const PASSWORD: any = process.env.PASSWORD;
 const EXPECTED_RESULT = "Test summary";
+
 
 test.beforeEach(async ({ page }) => {
     const login = new LoginPage(page);
     await login.login(USERNAME, PASSWORD);
 });
 
-test.describe("Browse issue test suite", async ()=> {
+test.describe("Browse issue test suite", async () => {
 
-    test("Browse issue",async ( {page} ) => {
+    test("Browse issue", async ({ page }) => {
         const dashboard = new DashboardPage(page);
         const issue = new IssuePage(page);
         await (await page.waitForSelector("#header-details-user-fullname")).isVisible();
@@ -24,4 +27,5 @@ test.describe("Browse issue test suite", async ()=> {
             expect(actualResult).toEqual(EXPECTED_RESULT);
         }).toPass();
     })
+
 })
