@@ -16,7 +16,7 @@ export default class LoginPage {
     }
 
     async enterPassword(pwd: string) {
-        await this.password().type(pwd);
+        await this.password().fill(pwd);
     }
 
     async clickLogIn() {
