@@ -4,18 +4,23 @@ export default class LoginPage {
 
     constructor(public page: Page) { }
 
+    // Locators
+    userName = () => this.page.locator("#login-form-username");
+    password = () => this.page.locator("#login-form-password");
+    logInBtn = () => this.page.locator('#login');
+    userNameError = () => this.page.locator("#usernameerror");
 
-
+    // Actions
     async enterUserName(username: string) {
-        await this.page.locator("#login-form-username").type(username);
+        await this.userName().type(username);
     }
 
     async enterPassword(pwd: string) {
-        await this.page.locator("#login-form-password").type(pwd);
+        await this.password().type(pwd);
     }
 
     async clickLogIn() {
-        await this.page.click("#login");
+        await this.logInBtn().click();
     }
 
     async navigateToLoginPage() {
@@ -23,7 +28,7 @@ export default class LoginPage {
     }
 
     async errorMessageIsPresent() {
-        return this.page.locator("#usernameerror").isVisible;
+        return this.userNameError().isVisible;
     }
 
     async login(username: string, pwd: string) {
