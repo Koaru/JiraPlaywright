@@ -1,7 +1,4 @@
-import { test, expect } from "@playwright/test";
-import LoginPage from "../pages/loginPage";
-import DashboardPage from "../pages/dashboardPage";
-import IssuePage from "../pages/issuePage";
+import { test, expect } from "../fixtures/pomfixture";
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -12,42 +9,37 @@ const SUMMARY = "Test summary";
 const TYPE = "Story";
 
 
-test.beforeEach(async ({ page }) => {
-    const login = new LoginPage(page);
-    await login.login(USERNAME, PASSWORD);
+test.beforeEach(async ({ loginPage }) => {
+    await loginPage.login(USERNAME, PASSWORD);
 });
 
 
 test.describe("Create issue test suit", async () => {
 
 
-    test("Create issue", async ({ page }) => {
-        const dashboard = new DashboardPage(page);
-        const issue = new IssuePage(page);
-        await dashboard.createIssue(SUMMARY, PROJECT, TYPE);
-        const issueKey = await dashboard.getCreatedIssueText();
-        await dashboard.clickOnCreatedIssueLink();
-        const expectedResult = await issue.getIssueKey() + " - " + SUMMARY;
+    test("Create issue", async ({ dashboardPage, issuePage }) => {
+        await dashboardPage.createIssue(SUMMARY, PROJECT, TYPE);
+        const issueKey = await dashboardPage.getCreatedIssueText();
+        await dashboardPage.clickOnCreatedIssueLink();
+        const expectedResult = await issuePage.getIssueKey() + " - " + SUMMARY;
         expect(issueKey).toBe(expectedResult);
-        await issue.deleteIssue();
+        await issuePage.deleteIssue();
     });
 
 
-    test("Cancel issue create", async ({ page }) => {
-        const dashboard = new DashboardPage(page);
-        await dashboard.clickOnCreateBtn();
-        await dashboard.fillProjectField(PROJECT);
-        await dashboard.clickOnCreateIssueHeading();
-        await dashboard.clickOnCreateIssueCancelBtn();
+    test("Cancel issue create", async ({ dashboardPage }) => {
+        await dashboardPage.clickOnCreateBtn();
+        await dashboardPage.fillProjectField(PROJECT);
+        await dashboardPage.clickOnCreateIssueHeading();
+        await dashboardPage.clickOnCreateIssueCancelBtn();
     });
 
 
-    test("Create issue with empty summary", async ({ page }) => {
-        const dashboard = new DashboardPage(page);
-        await dashboard.clickOnCreateBtn();
-        await dashboard.clickOnCreateIssueBtn();
+    test("Create issue with empty summary", async ({ dashboardPage }) => {
+        await dashboardPage.clickOnCreateBtn();
+        await dashboardPage.clickOnCreateIssueBtn();
         await expect(async () => {
-            expect(await dashboard.isSummaryFieldEmpty()).toBeTruthy();
+            expect(await dashboardPage.isSummaryFieldEmpty()).toBeTruthy();
         }).toPass();
     });
 })

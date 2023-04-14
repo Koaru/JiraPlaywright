@@ -1,6 +1,4 @@
-import { test, expect } from "@playwright/test";
-import LoginPage from "../pages/loginPage";
-import DashboardPage from "../pages/dashboardPage";
+import { test, expect } from "../fixtures/pomfixture";
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -10,25 +8,21 @@ const INVALIDUSERNAME = "invalidusername";
 const INVALIDPASSWORD = "invalidpassword";
 
 
-test("Happy Path login", async ({ page }) => {
-    const login = new LoginPage(page);
-    const dashboard = new DashboardPage(page);
-    await login.login(USERNAME, PASSWORD);
-    await dashboard.clickOnProfile();
-    await dashboard.clickOnViewProfile();
+test("Happy Path login", async ({ page, loginPage, dashboardPage }) => {
+    await loginPage.login(USERNAME, PASSWORD);
+    await dashboardPage.clickOnProfile();
+    await dashboardPage.clickOnViewProfile();
     let userName = await page.textContent("#up-d-username");
     expect(userName).toContain(USERNAME);
 })
 
 
-test("Invalid username", async ({ page }) => {
-    const login = new LoginPage(page);
-    await login.login(INVALIDUSERNAME, PASSWORD);
-    expect(await login.errorMessageIsPresent()).toBeTruthy();
+test("Invalid username", async ({ loginPage }) => {
+    await loginPage.login(INVALIDUSERNAME, PASSWORD);
+    expect(await loginPage.errorMessageIsPresent()).toBeTruthy();
 })
 
-test("Invalid password", async ({ page }) => {
-    const login = new LoginPage(page);
-    await login.login(USERNAME, INVALIDPASSWORD);
-    expect(await login.errorMessageIsPresent()).toBeTruthy();
+test("Invalid password", async ({ loginPage }) => {
+    await loginPage.login(USERNAME, INVALIDPASSWORD);
+    expect(await loginPage.errorMessageIsPresent()).toBeTruthy();
 })

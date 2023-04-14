@@ -51,12 +51,14 @@ module.exports = defineConfig({
       headless: false },
     },
 
-    /* {
+    {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'],
+      viewport: {width:1920,height:1080},
+      headless: false },
     },
 
-    {
+    /* {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     }, */

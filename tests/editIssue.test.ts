@@ -1,7 +1,4 @@
-import { test, expect } from "@playwright/test";
-import LoginPage from "../pages/loginPage";
-import DashboardPage from "../pages/dashboardPage";
-import IssuePage from "../pages/issuePage";
+import { test, expect } from "../fixtures/pomfixture";
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -12,39 +9,34 @@ const SUMMARY = "Test summary";
 const TYPE = "Story";
 const EDITED_SUMMARY = "Edited summary";
 
-test.beforeEach(async ({ page }) => {
-    const login = new LoginPage(page);
-    await login.login(USERNAME, PASSWORD);
+test.beforeEach(async ({ loginPage}) => {
+    await loginPage.login(USERNAME, PASSWORD);
 });
 
 
 test.describe("Edit issue test suit", async () => {
 
-    test("Edit issue", async ({ page }) => {
-        const dashboard = new DashboardPage(page);
-        const issue = new IssuePage(page);
-        await dashboard.createIssue(SUMMARY, PROJECT, TYPE);
-        await dashboard.clickOnCreatedIssueLink();
-        await issue.clickOnEditBtn();
-        await issue.fillSummary(EDITED_SUMMARY);
-        await issue.clickOnUpdateBtn();
+    test("Edit issue", async ({ dashboardPage, issuePage }) => {
+        await dashboardPage.createIssue(SUMMARY, PROJECT, TYPE);
+        await dashboardPage.clickOnCreatedIssueLink();
+        await issuePage.clickOnEditBtn();
+        await issuePage.fillSummary(EDITED_SUMMARY);
+        await issuePage.clickOnUpdateBtn();
         await expect(async () => {
-            const actualResult = await issue.getSummary();
+            const actualResult = await issuePage.getSummary();
             expect(actualResult).toBe(EDITED_SUMMARY);
         }).toPass();
-        await issue.deleteIssue();
+        await issuePage.deleteIssue();
     });
 
-    test("Edit issue with empty summary", async ({ page }) => {
-        const dashboard = new DashboardPage(page);
-        const issue = new IssuePage(page);
-        await dashboard.createIssue(SUMMARY, PROJECT, TYPE);
-        await dashboard.clickOnCreatedIssueLink();
-        await issue.clickOnEditBtn();
-        await issue.fillSummary("");
-        await issue.clickOnUpdateBtn();
+    test("Edit issue with empty summary", async ({ dashboardPage, issuePage }) => {
+        await dashboardPage.createIssue(SUMMARY, PROJECT, TYPE);
+        await dashboardPage.clickOnCreatedIssueLink();
+        await issuePage.clickOnEditBtn();
+        await issuePage.fillSummary("");
+        await issuePage.clickOnUpdateBtn();
         await expect(async () => {
-            expect(await dashboard.isSummaryFieldEmpty()).toBeTruthy();
+            expect(await dashboardPage.isSummaryFieldEmpty()).toBeTruthy();
         }).toPass();
 
     });
