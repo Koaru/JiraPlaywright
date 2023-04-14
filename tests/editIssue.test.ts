@@ -9,7 +9,7 @@ const SUMMARY = "Test summary";
 const TYPE = "Story";
 const EDITED_SUMMARY = "Edited summary";
 
-test.beforeEach(async ({ loginPage}) => {
+test.beforeEach(async ({ loginPage }) => {
     await loginPage.login(USERNAME, PASSWORD);
 });
 
