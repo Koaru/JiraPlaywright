@@ -2,11 +2,15 @@ import { test, expect } from "../fixtures/pomfixture";
 import dotenv from 'dotenv'
 dotenv.config()
 
+// Valid username from the .env file
 const USERNAME: any = process.env.LOGINNAME;
+// Valid password from the .env file
 const PASSWORD: any = process.env.PASSWORD;
+// Expected summary 
 const EXPECTED_RESULT = "Test summary";
 
 
+// Open the page and log in before every test
 test.beforeEach(async ({ loginPage }) => {
     await loginPage.login(USERNAME, PASSWORD);
 });
